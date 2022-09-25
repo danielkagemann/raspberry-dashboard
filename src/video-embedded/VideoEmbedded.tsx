@@ -23,7 +23,7 @@ export const VideoEmbedded: FunctionComponent<VideoEmbeddedType> = ({videoId, ov
 
             if (parent) {
 
-                const {width, height} = ref.current.getBoundingClientRect();
+                const {height} = ref.current.getBoundingClientRect();
 
                 const parentSize = parent.getBoundingClientRect();
 

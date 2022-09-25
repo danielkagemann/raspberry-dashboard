@@ -23,10 +23,10 @@ const listBack: Array<VideoEmbeddedType> = [
     }
 ];
 
-const DURATION = 10000;
+const DURATION = 90000;
+const ALERTDURATION = 10000;
 
 function App() {
-
     const [alert, setAlert] = useState<AlertType | null>(null)
     const [front, setFront] = useState<boolean>(true)
 
@@ -50,7 +50,7 @@ function App() {
                 const data = JSON.parse(event.data);
 
                 setAlert({type: data.type, message: data.text});
-                setTimeout(() => setAlert(null), 10000);
+                setTimeout(() => setAlert(null), ALERTDURATION);
             };
 
             ws.onerror = (error: Event) => {
@@ -69,7 +69,7 @@ function App() {
      * @param index
      */
     const drawVideo = (item: VideoEmbeddedType, index: number) => (
-        <div className="row--element" key={'video' + index}>
+        <div className="row--element" key={`video-${front ? 'front' : 'back'}-${index}`}>
             <VideoEmbedded videoId={item.videoId}
                            overlay={item.overlay}/>
         </div>
