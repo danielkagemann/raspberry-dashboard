@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {VideoEmbedded, VideoEmbeddedType} from "./video-embedded/VideoEmbedded";
 import {AlertScreen, AlertType} from "./alert-screen/AlertScreen";
 
-const list: Array<VideoEmbeddedType> = [
+const listFront: Array<VideoEmbeddedType> = [
     {
         videoId: 'M2ojptpkIPo',
         overlay: 'HAM BU RG'
@@ -10,7 +10,9 @@ const list: Array<VideoEmbeddedType> = [
     {
         videoId: 'nxlQHQxVFis',
         overlay: 'PU LA'
-    },
+    }];
+
+const listBack: Array<VideoEmbeddedType> = [
     {
         videoId: 'frTb6m12Xtw',
         overlay: 'SAR AJE VO'
@@ -21,9 +23,20 @@ const list: Array<VideoEmbeddedType> = [
     }
 ];
 
+const DURATION = 10000;
+
 function App() {
 
     const [alert, setAlert] = useState<AlertType | null>(null)
+    const [front, setFront] = useState<boolean>(true)
+
+    /**
+     * switch between front and back
+     */
+    useEffect(() => {
+        setTimeout(() => setFront(!front), DURATION);
+    }, [front]);
+
 
     /**
      * for websocket installation
@@ -50,10 +63,11 @@ function App() {
 
     }, []);
 
-    if (alert !== null) {
-        return <AlertScreen type={alert.type} message={alert.message}/>
-    }
-
+    /**
+     * draw the video
+     * @param item
+     * @param index
+     */
     const drawVideo = (item: VideoEmbeddedType, index: number) => (
         <div className="row--element" key={'video' + index}>
             <VideoEmbedded videoId={item.videoId}
@@ -61,10 +75,14 @@ function App() {
         </div>
     );
 
+    if (alert !== null) {
+        return <AlertScreen type={alert.type} message={alert.message}/>
+    }
+
     return (
         <div className="row">
             {
-                list.map(drawVideo)
+                (front ? listFront : listBack).map(drawVideo)
             }
 
         </div>
