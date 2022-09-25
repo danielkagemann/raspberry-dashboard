@@ -1,10 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {VideoEmbedded} from "./video-embedded/VideoEmbedded";
+import {VideoEmbedded, VideoEmbeddedType} from "./video-embedded/VideoEmbedded";
 import {AlertScreen, AlertType} from "./alert-screen/AlertScreen";
 
-const DURATION = 30000;
-
-const list: Array<{ videoId: string, overlay: string }> = [
+const list: Array<VideoEmbeddedType> = [
     {
         videoId: 'M2ojptpkIPo',
         overlay: 'HAM BU RG'
@@ -23,29 +21,13 @@ const list: Array<{ videoId: string, overlay: string }> = [
     }
 ];
 
-
-
 function App() {
 
-    const [index, setIndex] = useState<number>(0);
-    const [alert, setAlert] = useState<AlertType|null>(null)
-    const handle = useRef<any>();
+    const [alert, setAlert] = useState<AlertType | null>(null)
 
     /**
-     * next video with start over handling
+     * for websocket installation
      */
-    const next = () => {
-        const nid = index + 1 === list.length ? 0 : index + 1;
-        handle.current = setTimeout(() => setIndex(nid), DURATION)
-    }
-
-    useEffect(() => {
-        next();
-        return () => {
-            clearTimeout(handle.current);
-        }
-    }, [index]);
-
     useEffect(() => {
         try {
             // handle websocket
@@ -61,7 +43,7 @@ function App() {
             ws.onerror = (error: Event) => {
                 console.log(error);
             };
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
 
@@ -69,11 +51,23 @@ function App() {
     }, []);
 
     if (alert !== null) {
-        return <AlertScreen type={alert.type} message={alert.message} />
+        return <AlertScreen type={alert.type} message={alert.message}/>
     }
 
+    const drawVideo = (item: VideoEmbeddedType, index: number) => (
+        <div className="row--element" key={'video' + index}>
+            <VideoEmbedded videoId={item.videoId}
+                           overlay={item.overlay}/>
+        </div>
+    );
+
     return (
-        <VideoEmbedded videoId={list[index].videoId} overlay={list[index].overlay}/>
+        <div className="row">
+            {
+                list.map(drawVideo)
+            }
+
+        </div>
     );
 }
 
