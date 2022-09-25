@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "scp -r build/* pi@mini.local:/home/pi/dashboard"
+    "deploy": "cp -rv build/* /var/www/html"
   },
   "eslintConfig": {
     "extends": [
