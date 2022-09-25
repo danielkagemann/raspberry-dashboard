@@ -22,11 +22,25 @@ body {
 
 /** video embedding **/
 .videoembedded {
-   position: absolute;
-   left: 0;
-   top: 0;
-   width: 156%;
-   height: 100%;
+   height: 100vh;
+   overflow: hidden;
+}
+
+.videoembedded iframe {
+   width: 100%;
+   height: calc((100vw*9) /16);
+}
+
+@media (max-aspect-ratio: 16/9) {
+   .videoembedded{
+      width: 100%;
+      overflow: hidden;
+   }
+
+   .videoembedded iframe{
+      width: calc((100vh*16)/9);
+      height: 100vh;
+   }
 }
 
 .videoembedded--overlay {
