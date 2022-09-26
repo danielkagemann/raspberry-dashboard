@@ -52,12 +52,12 @@ function App() {
     useEffect(() => {
         try {
             // handle websocket
-            const ws = new WebSocket('ws://localhost:8080');
+            const ws = new WebSocket('ws://localhost:8082');
 
             ws.onmessage = (event: MessageEvent) => {
                 const data = JSON.parse(event.data);
 
-                setAlert({type: data.type, message: data.text});
+                setAlert({...data});
                 setTimeout(() => setAlert(null), ALERTDURATION);
             };
 
@@ -67,8 +67,6 @@ function App() {
         } catch (e) {
             console.log(e);
         }
-
-
     }, []);
 
     /**

@@ -37,3 +37,12 @@ Start the server
   yarn start
 ```
 
+Build express webserver with websocket
+```
+yarn build:all
+```
+
+Start express webserver
+```
+yarn start:web
+```
