@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {VideoEmbedded, VideoEmbeddedType} from "./components/video-embedded/VideoEmbedded";
 import {AlertScreen, AlertType} from "./components/alert-screen/AlertScreen";
 
+
 const listFront: Array<VideoEmbeddedType> = [
     {
         videoId: 'M2ojptpkIPo',
