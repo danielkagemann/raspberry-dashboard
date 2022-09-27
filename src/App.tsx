@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {VideoEmbedded, VideoEmbeddedType} from "./components/video-embedded/VideoEmbedded";
 import {AlertScreen, AlertType} from "./components/alert-screen/AlertScreen";
 
-
 const listFront: Array<VideoEmbeddedType> = [
     {
         videoId: 'M2ojptpkIPo',
@@ -25,7 +24,7 @@ const listBack: Array<VideoEmbeddedType> = [
 ];
 
 const DURATION = 90000;
-const ALERTDURATION = 10000;
+const ALERTDURATION = 8000;
 
 function App() {
     const [alert, setAlert] = useState<AlertType | null>(null)
@@ -82,24 +81,17 @@ function App() {
         </div>
     );
 
-    /**
-     * draw content depending on alert or live cams
-     */
-    const drawContent = () => {
-        if (alert !== null) {
-            return <AlertScreen type={alert.type} message={alert.message}/>
-        }
-        return (<div className={`row ${isPortrait() ? 'portrait--sizes' : ''}`}>
-            {
-                (front ? listFront : listBack).map(drawVideo)
-            }
-        </div>);
-    };
-
     return (
-        <div className={`container ${isPortrait() ? 'portrait' : ''}`}>
-            {drawContent()}
-        </div>
+        <>
+            <div className={`container ${isPortrait() ? 'portrait' : ''}`}>
+                <div className={`row ${isPortrait() ? 'portrait--sizes' : ''}`}>
+                    {
+                        (front ? listFront : listBack).map(drawVideo)
+                    }
+                </div>
+            </div>
+            {alert && <AlertScreen type={alert.type} message={alert.message}/>}
+        </>
     );
 }
 

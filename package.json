@@ -20,7 +20,7 @@
     "dev": "yarn build:all && yarn start:web",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:all": "(cd webserver && yarn build) && yarn build && mkdir webserver/build/public && cp -r build/* webserver/build/public",
+    "build:all": "(cd webserver && yarn build) && yarn build && mkdir -p webserver/build/public && cp -r build/* webserver/build/public",
     "start:web": "(cd webserver/build/&&  node index.js)",
     "deploy:apache": "cp -rv webserver/build/public/* /var/www/html"
   },
