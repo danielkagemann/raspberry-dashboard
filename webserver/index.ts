@@ -15,8 +15,9 @@ wss.on('connection', (ws: WebSocket) => {
 const app = express();
 
 // the application
-app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
 
 app.post('/v1/message', (req: any, res: any) => {
     console.log(req.body);
