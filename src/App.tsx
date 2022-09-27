@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {VideoEmbedded, VideoEmbeddedType} from "./components/video-embedded/VideoEmbedded";
 import {AlertScreen, AlertType} from "./components/alert-screen/AlertScreen";
+import {isPortrait} from "./Helper";
 
 const listFront: Array<VideoEmbeddedType> = [
     {
@@ -31,20 +32,11 @@ function App() {
     const [front, setFront] = useState<boolean>(true)
 
     /**
-     * check for portrait mode
-     */
-    const isPortrait = (): boolean => {
-        const searchParams = new URLSearchParams(window.location.search ?? '');
-        return searchParams.get('portrait') === '1';
-    }
-
-    /**
      * switch between front and back
      */
     useEffect(() => {
         setTimeout(() => setFront(!front), DURATION);
     }, [front]);
-
 
     /**
      * for websocket installation
