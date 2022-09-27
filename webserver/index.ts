@@ -15,7 +15,7 @@ wss.on('connection', (ws: WebSocket) => {
 const app = express();
 
 // the application
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/v1/message', (req: any, res: any) => {
@@ -31,5 +31,5 @@ app.post('/v1/message', (req: any, res: any) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`️[server]: Server is running at https://localhost:${PORT}`);
+    console.log(`️[server]: Server is running at http://localhost:${PORT}`);
 });
