@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from "body-parser";
 import {WebSocket, WebSocketServer} from 'ws';
+import {DailyItem, InitializeDailyEvents} from "./dailyEvents";
 
 const PORT: number = 8080;
 const wss = new WebSocketServer({port: PORT+2});
@@ -21,19 +22,29 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+const _sendMessage = (obj: any) => {
+    if (socket) {
+        socket.send(JSON.stringify(obj));
+    } else {
+        console.log('[websocket] socket not available', obj.message);
+    }
+};
+
 /**
  * request POST /v1/messagae
  */
 app.post('/v1/message', (req: any, res: any) => {
-    if (socket) {
-        socket.send(JSON.stringify(req.body));
-    } else {
-        console.log('[websocket] socket not available');
-    }
-
+    _sendMessage(req.body);
     res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
+    const events: DailyItem[] = [
+        {hour: 8, minute: 30, text: 'Kaffeepause ☕'},
+        {hour: 12, minute: 0, text: 'Mahlzeit 🍲'},
+        {hour: 13, minute: 30, text: 'Kaffeepause ☕'},
+        {hour: 15, minute: 0, text: 'Feierabend 🍺'},
+    ];
+    InitializeDailyEvents(events, (text:string) => _sendMessage({type:'dark', message:text}));
     console.log(`️[server]: Server is running at http://localhost:${PORT}`);
 });
