@@ -9,6 +9,8 @@ export const VideoEmbedded: FunctionComponent<VideoEmbeddedType> = ({videoId, ov
 
     const ref = useRef<any>();
 
+    const onError = () => {};
+
     const renderOverlay = () => {
         const splits = overlay.split(' ');
         return splits.map(item => (<div className="videoembedded--overlay-item">{item}</div>))
@@ -45,8 +47,7 @@ export const VideoEmbedded: FunctionComponent<VideoEmbeddedType> = ({videoId, ov
 
     return (
         <div className="videoembedded">
-            <iframe frameBorder="0"
-                    width={'100%'}
+            <iframe width={'100%'}
                     height={'100%'}
                     ref={ref}
                     allowFullScreen

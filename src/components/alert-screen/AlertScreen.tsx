@@ -2,7 +2,7 @@ import {FunctionComponent} from "react";
 import {isPortrait} from "../../Helper";
 
 export type AlertType = {
-    type: 'error' | 'info',
+    type: 'error' | 'info' | 'dark',
     message: string
 ;
 }

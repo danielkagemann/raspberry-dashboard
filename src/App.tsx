@@ -3,6 +3,7 @@ import {VideoEmbedded, VideoEmbeddedType} from "./components/video-embedded/Vide
 import {AlertScreen, AlertType} from "./components/alert-screen/AlertScreen";
 import {isPortrait} from "./Helper";
 
+
 const listFront: Array<VideoEmbeddedType> = [
     {
         videoId: 'M2ojptpkIPo',
@@ -27,15 +28,21 @@ const listBack: Array<VideoEmbeddedType> = [
 const DURATION = 90000;
 const ALERTDURATION = 8000;
 
+const OPEN = {from: 8, to: 17};
+
 function App() {
     const [alert, setAlert] = useState<AlertType | null>(null)
     const [front, setFront] = useState<boolean>(true)
+
+    const hour =  useRef(new Date().getHours());
 
     /**
      * switch between front and back
      */
     useEffect(() => {
         setTimeout(() => setFront(!front), DURATION);
+
+        hour.current = new Date().getHours();
     }, [front]);
 
     /**
@@ -72,6 +79,11 @@ function App() {
                            overlay={item.overlay}/>
         </div>
     );
+
+    // check opening time
+    if (hour.current < OPEN.from || hour.current > OPEN.to) {
+        return (<AlertScreen type={'dark'} message={'Geschlossen'} />);
+    }
 
     return (
         <>

@@ -104,6 +104,10 @@ body {
    background: linear-gradient(15deg, #2866c7 0, #576d8e 100%);
 }
 
+.alert--dark {
+   background: #000;
+}
+
 .alert--text {
    font-size: 10rem;
    color: #FFFFFF;
