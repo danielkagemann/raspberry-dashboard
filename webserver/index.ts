@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
 import bodyParser from "body-parser";
 import {WebSocket, WebSocketServer} from 'ws';
-import {DailyItem, InitializeDailyEvents} from "./dailyEvents";
+import {DailyEvents, DailyItem} from "./modules/dailyEvents";
+import {Weather} from "./modules/weather";
+import createDebug from "debug";
+const debug = createDebug('minidashboard:server');
 
 const PORT: number = 8080;
 const wss = new WebSocketServer({port: PORT+2});
@@ -12,7 +15,7 @@ let socket: WebSocket | null = null;
  * at the moment only one connection is supported
  */
 wss.on('connection', (ws: WebSocket) => {
-    console.log('[websocket]: connection established')
+    debug('websocket connection established');
     socket = ws;
 });
 
@@ -26,7 +29,7 @@ const _sendMessage = (obj: any) => {
     if (socket) {
         socket.send(JSON.stringify(obj));
     } else {
-        console.log('[websocket] socket not available', obj.message);
+        debug('no websocket client: ' + obj.message)
     }
 };
 
@@ -38,6 +41,15 @@ app.post('/v1/message', (req: any, res: any) => {
     res.sendStatus(200);
 });
 
+app.get('/v1/weather', (req:any, res:any) => {
+    const payload = Weather.getResponse();
+    if (payload) {
+        res.json(Weather.getResponse())
+    } else {
+        res.sendStatus(406);
+    }
+});
+
 app.listen(PORT, () => {
     const events: DailyItem[] = [
         {hour: 8, minute: 30, text: 'Kaffeepause ☕'},
@@ -45,6 +57,7 @@ app.listen(PORT, () => {
         {hour: 13, minute: 30, text: 'Kaffeepause ☕'},
         {hour: 15, minute: 0, text: 'Feierabend 🍺'},
     ];
-    InitializeDailyEvents(events, (text:string) => _sendMessage({type:'dark', message:text}));
-    console.log(`️[server]: Server is running at http://localhost:${PORT}`);
+    DailyEvents.init(events, (text:string) => _sendMessage({type:'dark', message:text}));
+    Weather.init(48.7979966,8.6201857, '9b9de88aeecc02be1f016ad42d667ecf');
+    debug(`server is running at http://localhost:${PORT}`);
 });
