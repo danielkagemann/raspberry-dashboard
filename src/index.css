@@ -1,3 +1,5 @@
+@import "./assets/css/weather-icons.css";
+
 /** the global defaults **/
 * {
    box-sizing: border-box;
@@ -122,3 +124,52 @@ body {
    line-height: 0.8;
 }
 
+.weather {
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 0;
+   bottom: 0;
+   width: 100vw;
+   height: 100vh;
+   z-index: 9000;
+   background-image: url('./assets/schoemberg.jpg');
+   background-repeat: no-repeat;
+   background-position: center center;
+   background-size: cover;
+}
+
+.weather.flip {
+   width: 100vh;
+   height: 100vw;
+   transform: rotate(90deg);
+}
+
+.weather--right {
+   display:flex;
+   flex-direction: column;
+   justify-content: space-between;
+   height:100%;
+   text-align: right;
+   padding:4rem;
+   font-weight:bold;
+   color:#fff;
+   opacity:0.8;
+   line-height: 1;
+}
+.weather--time {
+   font-size:20vh;
+}
+
+.weather--date {
+   font-size:4vh;
+}
+
+.weather--temp {
+   font-size:8vh;
+}
+
+.weather--desc {
+   font-size:3vh;
+   font-weight:normal;
+}
