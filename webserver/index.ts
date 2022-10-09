@@ -4,6 +4,7 @@ import {WebSocket, WebSocketServer} from 'ws';
 import {DailyEvents, DailyItem} from "./modules/dailyEvents";
 import {Weather} from "./modules/weather";
 import createDebug from "debug";
+import {Configuration} from "./configuration";
 const debug = createDebug('minidashboard:server');
 
 const PORT: number = 8080;
@@ -51,13 +52,9 @@ app.get('/v1/weather', (req:any, res:any) => {
 });
 
 app.listen(PORT, () => {
-    const events: DailyItem[] = [
-        {hour: 8, minute: 30, text: 'Kaffeepause ☕'},
-        {hour: 12, minute: 0, text: 'Mahlzeit 🍲'},
-        {hour: 13, minute: 30, text: 'Kaffeepause ☕'},
-        {hour: 15, minute: 0, text: 'Feierabend 🍺'},
-    ];
-    DailyEvents.init(events, (text:string) => _sendMessage({type:'dark', message:text}));
-    Weather.init(48.7979966,8.6201857, '9b9de88aeecc02be1f016ad42d667ecf');
+    DailyEvents.init(Configuration.events, (text:string) => _sendMessage({type:'dark', message:text}));
+    Weather.init(Configuration.weather.latitude,
+        Configuration.weather.longitude,
+        Configuration.weather.key);
     debug(`server is running at http://localhost:${PORT}`);
 });
