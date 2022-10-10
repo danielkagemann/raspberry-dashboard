@@ -1,5 +1,5 @@
 .weather {
-   position: fixed;
+   position: absolute;
    left: 0;
    right: 0;
    top: 0;
@@ -7,28 +7,10 @@
    width: 100vw;
    height: 100vh;
    z-index: 9000;
-}
-
-.weather--image {
-   position:absolute;
-   left: 0;
-   right: 0;
-   top: 0;
-   bottom: 0;
-   width: 100%;
-   height: 100%;
-
    background-image: url('../schoemberg.jpg');
    background-repeat: no-repeat;
    background-position: center center;
    background-size: cover;
-   animation: movingImage 10s alternate infinite ease-in-out;
-}
-
-.weather.flip {
-   width: 100vh;
-   height: 100vw;
-   transform: rotate(90deg);
 }
 
 .weather--right {
@@ -58,15 +40,4 @@
 .weather--desc {
    font-size:3vh;
    font-weight:normal;
-}
-
-@keyframes movingImage {
-   0% {
-      transform: scale(1) translateY(0);
-      transform-origin: 50% 84%;
-   }
-   100% {
-      transform: scale(1.25) translateY(15px);
-      transform-origin: bottom;
-   }
 }

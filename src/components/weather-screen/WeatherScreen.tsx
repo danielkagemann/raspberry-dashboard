@@ -111,9 +111,7 @@ export const WeatherScreen = () => {
     }
 
     return (
-        <div className={`weather ${isPortrait() ? 'flip' : ''}`}>
-            <div className="weather--image"/>
-
+        <div className={`weather ${isPortrait() ? 'portrait portrait--sizes' : ''}`}>
             <div className="weather--right">
                 <div>
                     <div className="weather--time">

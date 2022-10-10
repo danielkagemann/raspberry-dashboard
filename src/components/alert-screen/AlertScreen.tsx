@@ -8,8 +8,8 @@ export type AlertType = {
 ;
 }
 export const AlertScreen: FunctionComponent<AlertType> = ({type, message}) => (
-  <div className={`alert alert--${type}`}>
-      <div className={`alert--text ${isPortrait() ? 'portrait' : ''}`}>
+  <div className={`alert alert--${type}  ${isPortrait() ? 'portrait portrait--sizes' : ''}`}>
+      <div className={'alert--text'}>
           {message.split(' ').map((item)=>(<div>{item}</div>))}
       </div>
   </div>
