@@ -1,0 +1,37 @@
+/** alert screen **/
+.alert {
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 0;
+   bottom: 0;
+   width: 100vw;
+   height: 100vh;
+   z-index: 100000;
+}
+
+.alert--error {
+   background-color: #a13434;
+}
+
+.alert--info {
+   background: linear-gradient(15deg, #2866c7 0, #576d8e 100%);
+}
+
+.alert--dark {
+   background: #000;
+}
+
+.alert--text {
+   font-size: 10rem;
+   color: #FFFFFF;
+   font-weight: bolder;
+   display: flex;
+   width: 100%;
+   height: 100%;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   line-height: 0.8;
+}
