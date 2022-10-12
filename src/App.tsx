@@ -30,7 +30,7 @@ const DURATION = 90000;
 const ALERTDURATION = 8000;
 const WEATHERDURATION = 8000;
 
-const OPEN = {from: 8, to: 17};
+const OPEN = {from: 8, to: 20};
 
 function App() {
     const [alert, setAlert] = useState<AlertType | null>(null)

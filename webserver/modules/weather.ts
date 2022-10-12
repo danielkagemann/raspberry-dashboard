@@ -1,6 +1,5 @@
-import http = require("https");
-import {ClientRequest} from "http";
 import createDebug from "debug";
+import axios from 'axios';
 
 const debug = createDebug('minidashboard:weather');
 
@@ -17,46 +16,16 @@ const _data: WeatherApi = {
 };
 
 const _getData = () => {
-    let result: string = "";
-    const req: ClientRequest = http.get(_data.url, (res) => {
-        res.on("data", chunk => {
-            result += chunk;
+    axios.get(_data.url, {headers: {
+            Accept: 'application/json',
+        },})
+        .then(function (response: any) {
+            debug('fetched weather data');
+            _data.response = response;
+        })
+        .catch(function (error: any) {
+            debug('error' + JSON.stringify(error));
         });
-
-        res.on("error", err => {
-            debug('resulterror ' + err);
-        });
-
-        res.on("end", () => {
-            try {
-                debug('fetched new data');
-                _data.response = JSON.parse(result);
-            } catch (err) {
-                debug('parsing error ' + err);
-            }
-        });
-    });
-
-    /***
-     * handles the errors on the request
-     */
-    req.on("error", (err) => {
-        debug('error sending request' + err);
-    });
-
-    /***
-     * handles the timeout error
-     */
-    req.on('timeout', (err: any) => {
-        debug('request runs in timeout' + err);
-    });
-
-    /***
-     * unhandled errors on the request
-     */
-    req.on('uncaughtException', (err) => {
-        debug('request throws uncaught exception' + err);
-    });
 };
 
 const init = (lat: number, long: number, api: string) => {
