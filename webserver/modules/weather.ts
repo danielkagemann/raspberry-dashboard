@@ -33,7 +33,7 @@ const _getData = () => {
             _data.retries = RETRIES;
         })
         .catch(function (error: any) {
-            debug('error' + JSON.stringify(error));
+            debug('error' + error.message);
             if (_data.retries > 0) {
                 _data.retries--;
                 setTimeout(_getData, ONE_MINUTE);
