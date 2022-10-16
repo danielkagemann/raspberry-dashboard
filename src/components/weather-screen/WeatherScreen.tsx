@@ -5,7 +5,7 @@ export const WeatherScreen = () => {
     const [weather, setWeather] = useState<any>(null);
     useEffect(() => {
         fetch('/v1/weather').then(res => res.json()).then(setWeather).catch(err => {
-            setWeather({main: {temp: '0'}, weather: [{id: 711, description: '---'}]})
+            setWeather(null)
         });
     }, []);
 
@@ -121,10 +121,12 @@ export const WeatherScreen = () => {
                         {drawDate()}
                     </div>
                 </div>
-                <div>
-                    <div className="weather--temp">{drawIcon()} {weather?.main?.temp ?? 'temp'}&#8451;</div>
-                    <div className="weather--desc">{weather?.weather[0].description ?? 'desc'}</div>
-                </div>
+                {weather &&
+                   <div>
+                      <div className="weather--temp">{drawIcon()} {weather?.main?.temp ?? 'temp'}&#8451;</div>
+                      <div className="weather--desc">{weather?.weather[0].description ?? 'desc'}</div>
+                   </div>
+                }
             </div>
         </div>
     );
