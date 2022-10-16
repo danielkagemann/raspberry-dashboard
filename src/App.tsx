@@ -4,6 +4,7 @@ import {AlertScreen, AlertType} from "./components/alert-screen/AlertScreen";
 import {isPortrait} from "./Helper";
 import {WeatherScreen} from "./components/weather-screen/WeatherScreen";
 import {Opening} from "./components/opening/Opening";
+import {Countdown} from "./components/countdown/Countdown";
 
 /*
 maybe some interesting locations
@@ -24,35 +25,35 @@ const list: Array<VideoEmbeddedType> = [
 ];
 
 const CONFIGURATION = {
-    showAlert: 8 * 1000,
-    showWeather: 10 * 1000,
-    showVideo: 90 * 1000
+    showAlert: 8,
+    showWeather: 10,
+    showVideo: 90
 };
 
 function App() {
     const [alert, setAlert] = useState<AlertType | null>(null)
     const [showWeather, setShowWeather] = useState<boolean>(false);
-
-    const hour = useRef(new Date().getHours());
+    const [seconds, setSeconds] = useState<number>(0);
 
     /**
      * switch between front and back
      */
     useEffect(() => {
-        const handle = setInterval(() => {
-            setShowWeather(true);
+        setTimeout(() => {
+            let next = seconds + 1;
 
-            // just show for 5s
-            setTimeout(() => setShowWeather(false), CONFIGURATION.showWeather);
+            if (next === CONFIGURATION.showVideo) {
+                setShowWeather(true);
+                setTimeout(() => {
+                    setShowWeather(false);
+                    setSeconds(0);
+                }, CONFIGURATION.showWeather * 1000);
+            } else {
+                setSeconds(next);
+            }
+        }, 1000);
+    }, [seconds]);
 
-            hour.current = new Date().getHours();
-        }, CONFIGURATION.showVideo);
-
-
-        return () => {
-            clearInterval(handle);
-        }
-    }, []);
 
     /**
      * for websocket installation
@@ -61,14 +62,11 @@ function App() {
         try {
             // handle websocket
             const ws = new WebSocket('ws://localhost:8082');
-
             ws.onmessage = (event: MessageEvent) => {
                 const data = JSON.parse(event.data);
-
                 setAlert({...data});
                 setTimeout(() => setAlert(null), CONFIGURATION.showAlert);
             };
-
             ws.onerror = (error: Event) => {
                 console.log(error);
             };
@@ -102,6 +100,7 @@ function App() {
                 {showWeather && <WeatherScreen/>}
                 {alert && <AlertScreen type={alert.type} message={alert.message}/>}
             </>
+            <Countdown seconds={seconds} total={CONFIGURATION.showVideo}/>
         </Opening>
     );
 }

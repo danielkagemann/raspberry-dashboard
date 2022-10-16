@@ -6,7 +6,7 @@ export const Opening = ({children}: PropsWithChildren): ReactElement => {
     const [hour, setHour] = useState<number>(new Date().getHours());
 
     useEffect(() => {
-        const handle = setInterval(() => setHour(new Date().getHours), 60 * 1000);
+        const handle = setInterval(() => setHour(new Date().getHours()), 60 * 1000);
         return () => {
             clearInterval(handle);
         };
