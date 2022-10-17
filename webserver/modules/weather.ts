@@ -29,7 +29,7 @@ const _getData = () => {
     })
         .then(function (response: any) {
             debug('fetched weather data');
-            _data.response = response;
+            _data.response = {...response.data};
             _data.retries = RETRIES;
         })
         .catch(function (error: any) {
