@@ -7,8 +7,8 @@ export const Configuration = {
         {hour: 15, minute: 0, text: 'Feierabend 🍺'},
     ],
     weather: {
-        latitude: 0,
-        longitude: 0,
-        key: ''
+        latitude: 48.7979966,
+        longitude: 8.6201857,
+        key: '9b9de88aeecc02be1f016ad42d667ecf'
     }
 };
